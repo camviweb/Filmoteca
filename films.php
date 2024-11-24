@@ -11,7 +11,16 @@ echo "<h1>Liste des films</h1><br>";
 $sql = "SELECT * FROM Movie";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
-    echo "<table>";
+    echo "<table>" .
+        "<tr>" .
+        "<th>Affiche</th>" .
+        "<th>Titre</th>" .
+        "<th>Année</th>" .
+        "<th>Synopsis</th>" .
+        "<th>Directeur</th>" .
+        "<th>Genre</th>" .
+        "<th>Notation</th>" .
+        "</tr>";
     while ($row = $result->fetch_assoc()) {
         echo "<tr><td>" . $row["title"] . "</td>" .
             "<td>" . $row["year"] . "</td>" .
@@ -26,3 +35,8 @@ if ($result->num_rows > 0) {
 
 $conn->close();
 ?>
+
+<a href="edit.php"><button>Editer</button><br></a>
+<a href="delete.php"><button>Supprimer</button><br></a>
+<a href="grade.php"><button>Noter</button><br></a>
+<a href="comment.php"><button>Laisser un commentaire/button><br></a>

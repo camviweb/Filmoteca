@@ -13,8 +13,9 @@
         <h1>Filmoteca</h1>
     </header>
     <div class="menu">
-        <a href="index.html">Accueil</a>
+        <a href="index.php">Accueil</a>
         <a href="films.php">Liste des films</a>
+        <a href="add.php">Ajouter un film</a>
     </div>
     <section>
         <p>Ce site est ma collection de films.</p>
