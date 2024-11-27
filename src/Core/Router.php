@@ -4,8 +4,17 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+use Twig\Environment;
+
 class Router
 {
+    private Environment $twig;
+
+    public function __construct(Environment $twig)
+    {
+        $this->twig = $twig; // Stocke l'instance de Twig pour une utilisation ultérieure
+    }
+
     public function route(): void
     {
         /**
@@ -38,7 +47,7 @@ class Router
                 return;
             }
 
-            $controller = new $controllerName();
+            $controller = new $controllerName($this->twig);
 
             // Vérifie si la méthode existe dans le contrôleur
             if (method_exists($controller, $action)) {
