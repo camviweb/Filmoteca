@@ -39,6 +39,38 @@ class Router
                 $controller->store();
                 return;
             }
+
+            if ($uri === 'delete_movie') {
+                $controller = new \App\Controller\FilmController();
+                $filmId = $_POST['id'] ?? null;
+                if ($filmId) {
+                    // Appel de la méthode delete avec l'ID du film
+                    $controller->delete(['id' => $filmId]);
+                } else {
+                    echo "ID du film manquant.";
+                }
+                return;
+            }
+
+            if ($route === 'film' && $action === 'update') {
+                $controller = new \App\Controller\FilmController();
+                $controller->update($_POST);
+                return;
+            }
+        }
+
+        // Gestion de la route GET pour afficher les détails d'un film
+        if ($method === 'GET' && $route === 'film' && isset($parts[2]) && $parts[1] === 'details') {
+            $controller = new \App\Controller\FilmController();
+            $controller->showDetails((int) $parts[2]); // Appelle la méthode showDetails avec l'ID du film
+            return;
+        }
+
+        if ($method === 'GET' && $route === 'film' && isset($parts[2]) && $parts[1] === 'edit') {
+            // Récupère l'ID de l'URL et appelle la méthode edit avec l'ID
+            $controller = new \App\Controller\FilmController();
+            $controller->edit((int) $parts[2]); // Passe l'ID du film à la méthode edit
+            return;
         }
 
         if (array_key_exists($route, $routes)) {

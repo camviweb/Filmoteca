@@ -73,4 +73,48 @@ class FilmRepository
         ]);
     }
 
+    public function delete(Film $film)
+    {
+        // Requête SQL pour supprimer un film de la base de données
+        $query = 'DELETE FROM film WHERE id = :id';
+
+        // Préparer la requête pour éviter les injections SQL
+        $stmt = $this->db->prepare($query);
+
+        // Exécuter la requête avec l'ID du film
+        $stmt->execute(['id' => $film->getId()]);
+    }
+
+    public function update(Film $film)
+    {
+        // Requête SQL pour mettre à jour un film existant
+        $query = "
+        UPDATE film
+        SET 
+            title = :title,
+            year = :year,
+            type = :type,
+            synopsis = :synopsis,
+            director = :director,
+            deleted_at = :deleted_at,
+            updated_at = :updated_at
+        WHERE id = :id
+    ";
+
+        // Préparer la requête pour éviter les injections SQL
+        $stmt = $this->db->prepare($query);
+
+        // Exécuter la requête avec les paramètres du film
+        $stmt->execute([
+            ':id' => $film->getId(),
+            ':title' => $film->getTitle(),
+            ':year' => $film->getYear(),
+            ':type' => $film->getType(),
+            ':synopsis' => $film->getSynopsis(),
+            ':director' => $film->getDirector(),
+            ':deleted_at' => $film->getDeletedAt() ? $film->getDeletedAt()->format('Y-m-d H:i:s') : null,
+            ':updated_at' => $film->getUpdatedAt()->format('Y-m-d H:i:s'),
+        ]);
+    }
+
 }

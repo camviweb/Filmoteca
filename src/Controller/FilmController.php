@@ -103,13 +103,100 @@ class FilmController
         dd($film);
     }
 
-    public function update()
+    public function edit(int $id)
     {
-        echo "Mise à jour d'un film";
+
+        // Récupère l'ID du film à partir des paramètres de l'URL
+        $filmRepository = new FilmRepository();
+
+        // Récupère les informations du film depuis la base de données
+        $film = $filmRepository->find($id);
+
+        if ($film) {
+            echo $this->renderer->render('film/edit.html.twig', [
+                'film' => $film
+            ]);
+        } else {
+            echo "Film introuvable.";
+        }
     }
 
-    public function delete()
+    public function update(array $data)
     {
-        echo "Suppression d'un film";
+        // Récupère les données du formulaire via POST
+        $filmId = (int) $data['id'];
+        $title = $data['title'];
+        $year = $data['year'];
+        $type = $data['type'];
+        $synopsis = $data['synopsis'];
+        $director = $data['director'];
+
+        // Récupère le film à modifier
+        $filmRepository = new FilmRepository();
+        $film = $filmRepository->find($filmId);
+
+        if ($film) {
+            // Met à jour les informations du film
+            $film->setTitle($title);
+            $film->setYear($year ? (string) $year : null);
+            $film->setType($type);
+            $film->setSynopsis($synopsis);
+            $film->setDirector($director);
+            $film->setUpdatedAt(new \DateTime());
+
+            // Sauvegarde les modifications dans la base de données
+            $filmRepository->update($film);
+
+            // Redirige vers la liste des films ou affiche un message de succès
+            header('Location: /film/list');
+            exit;
+        } else {
+            // Si le film n'existe pas, affiche une erreur
+            echo "Film introuvable.";
+        }
     }
+
+
+    public function delete(array $queryParams)
+    {
+        // Vérifie si un ID est passé dans la requête POST
+        if (isset($_POST['id'])) {
+            $filmId = (int) $_POST['id'];
+
+            // Récupérer l'entité film via son ID
+            $filmRepository = new FilmRepository();
+            $film = $filmRepository->find($filmId);
+
+            // Si le film existe, le supprimer
+            if ($film) {
+                $filmRepository->delete($film);
+
+                // Rediriger l'utilisateur vers la liste des films après la suppression
+                header('Location: /film/list');
+                exit;  // Arrêter l'exécution du script après la redirection
+            } else {
+                echo "Film introuvable.";
+            }
+        } else {
+            // Gérer le cas où l'ID n'est pas passé
+            echo "ID du film manquant.";
+        }
+
+        // echo "Suppression d'un film";
+    }
+
+    public function showDetails(int $id): void
+    {
+        $filmRepository = new FilmRepository();
+        $film = $filmRepository->find($id); // Récupère les informations du film par son ID
+
+        if ($film) {
+            echo $this->renderer->render('film/details.html.twig', [
+                'film' => $film, // Passe les données du film à la vue
+            ]);
+        } else {
+            echo "Film introuvable.";
+        }
+    }
+
 }
