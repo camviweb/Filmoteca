@@ -19,7 +19,7 @@ class FilmController
         $films = $filmRepository->findAll();
 
         // Rendu de la vue avec Twig
-        echo $twig->render('list.html.twig', ['films' => $films,]);
+        echo $twig->render('film/list.html.twig', ['films' => $films,]);
 
         /* $filmEntities = [];
         foreach ($films as $film) {
