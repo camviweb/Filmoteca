@@ -18,6 +18,7 @@ class Router
 
         // Récupère l'URL demandée (sans le domaine et la racine)
         $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+        $method = $_SERVER['REQUEST_METHOD']; // Méthode HTTP (GET, POST)
 
         // Découpe l'URI pour obtenir la route et l'action
         $parts = explode('/', $uri); // Exemple : ['films', 'create']
@@ -30,6 +31,15 @@ class Router
             'film' => 'FilmController',
             'contact' => 'ContactController',
         ];
+
+        // Gestion des routes POST spécifiques
+        if ($method === 'POST') {
+            if ($uri === 'add_movie') {
+                $controller = new \App\Controller\FilmController();
+                $controller->store();
+                return;
+            }
+        }
 
         if (array_key_exists($route, $routes)) {
             // Crée dynamiquement le contrôleur

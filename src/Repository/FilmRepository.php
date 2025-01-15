@@ -52,4 +52,25 @@ class FilmRepository
         // Utilise le service de mappage pour convertir le résultat en objet Film
         return $this->entityMapperService->mapToEntity($film, Film::class);
     }
+
+    public function save(Film $film)
+    {
+        //$pdo = $this->getPdo(); Méthode pour obtenir une connexion PDO
+        $stmt = $this->db->prepare("
+        INSERT INTO film (title, year, type, synopsis, director, deleted_at, created_at, updated_at)
+        VALUES (:title, :year, :type, :synopsis, :director, :deleted_at, :created_at, :updated_at)
+    ");
+
+        $stmt->execute([
+            ':title' => $film->getTitle(),
+            ':year' => $film->getYear(),
+            ':type' => $film->getType(),
+            ':synopsis' => $film->getSynopsis(),
+            ':director' => $film->getDirector(),
+            ':deleted_at' => $film->getDeletedAt() ? $film->getDeletedAt()->format('Y-m-d H:i:s') : null,
+            ':created_at' => $film->getCreatedAt()->format('Y-m-d H:i:s'),
+            ':updated_at' => $film->getUpdatedAt()->format('Y-m-d H:i:s'),
+        ]);
+    }
+
 }
