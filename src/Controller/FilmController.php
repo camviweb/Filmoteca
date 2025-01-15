@@ -49,7 +49,9 @@ class FilmController
 
     public function create()
     {
-        echo "Création d'un film";
+        // echo "Création d'un film";
+        // Rendre la vue create.html.twig 
+        echo $this->renderer->render('create.html.twig');
     }
 
     public function read(array $queryParams)
