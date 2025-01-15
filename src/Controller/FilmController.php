@@ -70,8 +70,22 @@ class FilmController
             return;
         }
 
+        $data = [
+            'title' => $title,
+            'year' => $year,
+            'type' => $type,
+            'synopsis' => $synopsis,
+            'director' => $director,
+            'deleted_at' => $deletedAt ? $deletedAt->format('Y-m-d H:i:s') : null,
+            'created_at' => (new \DateTime())->format('Y-m-d H:i:s'),
+            'updated_at' => (new \DateTime())->format('Y-m-d H:i:s')
+        ];
+
+        // Utilisation de l'EntityMapper pour mapper les données sur l'entité Film
+        $entityMapper = new \App\Service\EntityMapper();
+        $film = $entityMapper->mapToEntity($data, Film::class);
         // Création de l'objet Film
-        $film = new Film();
+        /*$film = new Film();
         $film->setTitle($title);
         $film->setYear($year ? (string) $year : null);
         $film->setType($type);
@@ -79,7 +93,7 @@ class FilmController
         $film->setDirector($director);
         $film->setDeletedAt($deletedAt);
         $film->setCreatedAt(new \DateTime());
-        $film->setUpdatedAt(new \DateTime());
+        $film->setUpdatedAt(new \DateTime());*/
 
         // Sauvegarde via le repository
         $filmRepository = new FilmRepository();
@@ -125,11 +139,11 @@ class FilmController
     {
         // Récupère les données du formulaire via POST
         $filmId = (int) $data['id'];
-        $title = $data['title'];
+        /*$title = $data['title'];
         $year = $data['year'];
         $type = $data['type'];
         $synopsis = $data['synopsis'];
-        $director = $data['director'];
+        $director = $data['director'];*/
 
         // Récupère le film à modifier
         $filmRepository = new FilmRepository();
@@ -137,14 +151,18 @@ class FilmController
 
         if ($film) {
             // Met à jour les informations du film
-            $film->setTitle($title);
+            /*$film->setTitle($title);
             $film->setYear($year ? (string) $year : null);
             $film->setType($type);
             $film->setSynopsis($synopsis);
             $film->setDirector($director);
-            $film->setUpdatedAt(new \DateTime());
+            $film->setUpdatedAt(new \DateTime());*/
 
+            $entityMapper = new \App\Service\EntityMapper();
+            $film = $entityMapper->mapToEntity($data, Film::class);
             // Sauvegarde les modifications dans la base de données
+
+            $film->setUpdatedAt(new \DateTime());
             $filmRepository->update($film);
 
             // Redirige vers la liste des films ou affiche un message de succès

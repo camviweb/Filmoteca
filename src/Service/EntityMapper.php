@@ -21,6 +21,10 @@ class EntityMapper
                 $value = new \DateTime($value);
             }
 
+            if ($key === 'id') {
+                $value = (int) $value; // Convertir en entier
+            }
+
             // Si le setter existe, on l'appelle
             if (method_exists($entity, $setter)) {
                 $entity->$setter($value);
