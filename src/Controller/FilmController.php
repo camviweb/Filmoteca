@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Core\TemplateRenderer;
 use App\Entity\Film;
 use App\Repository\FilmRepository;
-use App\Core\TwigEnvironment;
 
 class FilmController
 {
+    private TemplateRenderer $renderer;
+
+    public function __construct()
+    {
+        $this->renderer = new TemplateRenderer();
+    }
 
     public function list(array $queryParams)
     {
-
-        $twig = TwigEnvironment::create();
         $filmRepository = new FilmRepository();
         $films = $filmRepository->findAll();
-
-        // Rendu de la vue avec Twig
-        echo $twig->render('film/list.html.twig', ['films' => $films,]);
 
         /* $filmEntities = [];
         foreach ($films as $film) {
@@ -38,14 +39,16 @@ class FilmController
 
         //dd($films);
 
+        echo $this->renderer->render('film/list.html.twig', [
+            'films' => $films,
+        ]);
+
         // header('Content-Type: application/json');
         // echo json_encode($films);
     }
 
     public function create()
     {
-        // Rendu d'une page de création avec Twig
-        //echo $this->twig->render('Views/create.html.twig');
         echo "Création d'un film";
     }
 

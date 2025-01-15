@@ -4,7 +4,7 @@
     "type": "project",
     "authors": [
         {
-            "name": "Câm-Vi NGUYEN"
+            "name": "Yassin HAMMOU OUALI"
         }
     ],
     "autoload": {
@@ -16,6 +16,6 @@
         "symfony/var-dumper": "^7.1"
     },
     "require": {
-        "twig/twig": "^3.0"
+        "twig/twig": "^3.15"
     }
 }
