@@ -150,13 +150,7 @@ class FilmController
         $film = $filmRepository->find($filmId);
 
         if ($film) {
-            // Met à jour les informations du film
-            /*$film->setTitle($title);
-            $film->setYear($year ? (string) $year : null);
-            $film->setType($type);
-            $film->setSynopsis($synopsis);
-            $film->setDirector($director);
-            $film->setUpdatedAt(new \DateTime());*/
+
 
             $entityMapper = new \App\Service\EntityMapper();
             $film = $entityMapper->mapToEntity($data, Film::class);
@@ -175,7 +169,7 @@ class FilmController
     }
 
 
-    public function delete(array $queryParams)
+    public function delete(array $queryParams): void
     {
         // Vérifie si un ID est passé dans la requête POST
         if (isset($_POST['id'])) {
@@ -183,7 +177,7 @@ class FilmController
 
             // Récupérer l'entité film via son ID
             $filmRepository = new FilmRepository();
-            $film = $filmRepository->find($filmId);
+            $film = $filmRepository->find($filmId); // pas nécessaire 
 
             // Si le film existe, le supprimer
             if ($film) {
