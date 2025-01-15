@@ -86,9 +86,13 @@ class FilmController
         $filmRepository->save($film);
 
         // Message de confirmation
-        echo "Film ajouté";
+        $message = "Film ajouté";
         // header("Location: /films");
-        exit;
+
+        // Rendre la vue create.html.twig avec le message
+        echo $this->renderer->render('create.html.twig', [
+            'message' => $message,
+        ]);
     }
 
     public function read(array $queryParams)
