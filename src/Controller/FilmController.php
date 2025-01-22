@@ -22,35 +22,13 @@ class FilmController
         $filmRepository = new FilmRepository();
         $films = $filmRepository->findAll();
 
-        /* $filmEntities = [];
-        foreach ($films as $film) {
-            $filmEntity = new Film();
-            $filmEntity->setId($film['id']);
-            $filmEntity->setTitle($film['title']);
-            $filmEntity->setYear($film['year']);
-            $filmEntity->setType($film['type']);
-            $filmEntity->setSynopsis($film['synopsis']);
-            $filmEntity->setDirector($film['director']);
-            $filmEntity->setCreatedAt(new \DateTime($film['created_at']));
-            $filmEntity->setUpdatedAt(new \DateTime($film['updated_at']));
-
-            $filmEntities[] = $filmEntity;
-        } */
-
-        //dd($films);
-
         echo $this->renderer->render('film/list.html.twig', [
             'films' => $films,
         ]);
-
-        // header('Content-Type: application/json');
-        // echo json_encode($films);
     }
 
     public function create()
     {
-        // echo "Création d'un film";
-        // Rendre la vue create.html.twig 
         echo $this->renderer->render('create.html.twig');
     }
 
@@ -84,16 +62,6 @@ class FilmController
         // Utilisation de l'EntityMapper pour mapper les données sur l'entité Film
         $entityMapper = new \App\Service\EntityMapper();
         $film = $entityMapper->mapToEntity($data, Film::class);
-        // Création de l'objet Film
-        /*$film = new Film();
-        $film->setTitle($title);
-        $film->setYear($year ? (string) $year : null);
-        $film->setType($type);
-        $film->setSynopsis($synopsis);
-        $film->setDirector($director);
-        $film->setDeletedAt($deletedAt);
-        $film->setCreatedAt(new \DateTime());
-        $film->setUpdatedAt(new \DateTime());*/
 
         // Sauvegarde via le repository
         $filmRepository = new FilmRepository();
@@ -139,18 +107,12 @@ class FilmController
     {
         // Récupère les données du formulaire via POST
         $filmId = (int) $data['id'];
-        /*$title = $data['title'];
-        $year = $data['year'];
-        $type = $data['type'];
-        $synopsis = $data['synopsis'];
-        $director = $data['director'];*/
 
         // Récupère le film à modifier
         $filmRepository = new FilmRepository();
         $film = $filmRepository->find($filmId);
 
         if ($film) {
-
 
             $entityMapper = new \App\Service\EntityMapper();
             $film = $entityMapper->mapToEntity($data, Film::class);
@@ -167,7 +129,6 @@ class FilmController
             echo "Film introuvable.";
         }
     }
-
 
     public function delete(array $queryParams): void
     {
@@ -193,7 +154,6 @@ class FilmController
             // Gérer le cas où l'ID n'est pas passé
             echo "ID du film manquant.";
         }
-
         // echo "Suppression d'un film";
     }
 
