@@ -1,6 +1,7 @@
 # Filmoteca  
 
 Filmoteca est une application de gestion de films développée dans le cadre de la formation INF5. Ce projet suit l'architecture MVC et utilise Docker pour simplifier son déploiement.
+![Cover](https://github.com/camviweb/Filmoteca/blob/main/filmoteca.PNG)
 
 ## Technologies utilisées
 
@@ -160,5 +161,3 @@ N’oubliez pas de consulter les logs si vous rencontrez des problèmes :
 - Les commandes Make simplifient les interactions avec Docker et Docker Compose ;
 - Utilisez `make` depuis le répertoire racine du projet pour exécuter correctement les commandes ;  
 - En cas de problème, vérifiez que Docker et Docker Compose sont bien installés et fonctionnels.
-
-Bon développement ! 🚀
